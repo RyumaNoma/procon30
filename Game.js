@@ -63,12 +63,13 @@ class Game{
                 var dy = [1, -1, 0, 0];
 
                 for(var i=0; i<4; i++){
+                    //盤面外はダメ
                     var cell = new Array(c[1] + dx[i], c[0] + dy[i]);
 
                     if(cell[0] < 0 || cell[0] > this.x - 1){
                         continue;
                     }else{
-                        if(cell[1] < 1 || cell[1] > this.y - 1){
+                        if(cell[1] < 0 || cell[1] > this.y - 1){
                             continue;
                         }else{
                             s.push(cell);
@@ -103,7 +104,6 @@ class Game{
                 
 
         //塗りつぶしをすべての淵のマスで実行する
-
         //上
         for(var i=0; i<this.x; i++){
             if(status[0][i]){
@@ -170,7 +170,13 @@ class Game{
     //// 1 ... go
     //// 2 ... remove_tile
     //// 3 ... pass
-    agent_move(old_x, old_y, new_x, new_y, move_status){
+    agent_move(old_x, old_y, new_x, new_y){
+
+        var move_status = [];
+        for(var i=0; i<this.agent_num; i++){
+            move_status[i] = this.get_move_status(old_x[i], old_y[i], new_x[i], new_y[i]);
+        }
+
         var flag;
         var count = [];
         for(var i=0; i<17; i++) count[i] = 0;
@@ -193,7 +199,7 @@ class Game{
 
                 //同じ場所に行かないか
                 for(var j=0; j<this.agent_num; j++){
-                    if(new_x[i] === new_x[j] && new_y[i] === new_y[j] && i !== j && move_status[i] === 2){
+                    if(new_x[i] === new_x[j] && new_y[i] === new_y[j] && i !== j && move_status[j] === 1){
                         flag = false;
                         console.log(this.get_color(old_x[i], old_y[i])+ " : Agent #" + this.get_agent_No(old_x[i], old_y[i]) + " : 同じ場所に行こうとすな！");
                         break;
@@ -343,6 +349,24 @@ class Game{
 
     get_agent_No(x, y){
         return (this.board[y][x] > 8)? this.board[y][x]-8 : this.board[y][x];
+    }
+
+    get_move_status(old_x, old_y, new_x, new_y){
+
+        if(new_x === -1 && new_y === -1){
+            console.log(this.get_color(old_x, old_y)+ " : Agent #" + this.get_agent_No(old_x, old_y) + " : パスしたンゴーー");
+            return 3;
+        }
+        
+        //行き先が
+        // 0 または自陣
+        if(this.board[new_y][new_x] === 0 || this.board[new_y][new_x] === this.get_team(new_x, new_y)){
+            return 1;
+        }
+        
+        if((get_team(new_x, new_y) === 100 || get_team(new_x, new_y) === 200) && this.board[new_y][new_x] !== get_team(new_x, new_y)){
+            return 2;
+        }
     }
 }
 

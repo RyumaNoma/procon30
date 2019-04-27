@@ -29,7 +29,6 @@ old_x = [];
 old_y = [];
 new_x = [];
 new_y = [];
-move_status = [];
 count = 0;
 
 
@@ -38,12 +37,11 @@ function get_value(){
     old_y[count] = get_old_y();
     new_x[count] = get_new_x();
     new_y[count] = get_new_y();
-    move_status[count] = get_status();
 
     count++;
 
     if(count === agent_num){
-        game.agent_move(old_x, old_y, new_x, new_y, move_status);
+        game.agent_move(old_x, old_y, new_x, new_y,);
         count = 0;
     }
 }
@@ -101,12 +99,4 @@ function get_new_y(){
     var arr = form.dest.value.split(',');
 
     return parseInt(arr[1]);
-}
-
-function get_status(){
-    var form = document.forms.set;
-
-    // console.log(parseInt(form.sta.value));
-
-    return parseInt(form.sta.value);
 }
