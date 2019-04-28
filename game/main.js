@@ -12,8 +12,8 @@ var y = point_map.length;
 var x = point_map[0].length;
 
 //agent配置（固定）
-var agentsA = {0:0, 8:8},
-agentsB = {1:1, 9:9};
+var agentsA = {0:0, 8:8};
+var agentsB = {1:1, 9:9};
 
 //agent_num
 var agent_num = 0;

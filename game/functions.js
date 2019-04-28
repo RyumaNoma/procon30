@@ -118,8 +118,8 @@ function get_value(game){
 function get_value(){
     old_x[count] = get_old_x();
     old_y[count] = get_old_y();
-    new_x[count] = get_new_x();
-    new_y[count] = get_new_y();
+    new_x[count] = get_new_x(old_x[count]);
+    new_y[count] = get_new_y(old_y[count]);
 
     count++;
 
@@ -173,18 +173,36 @@ function get_old_y(){
     }
 }
 
-function get_new_x(){
+function get_new_x(old_x){
     var form = document.forms.set;
 
-    var arr = form.dest.value.split(',');
+    var num = parseInt(form.dest.value);
 
-    return parseInt(arr[0]);
+    switch(num){
+        case 1 :  return old_x;
+        case 2 :  return old_x + 1;
+        case 3 :  return old_x + 1;
+        case 4 :  return old_x + 1;
+        case 5 :  return old_x;
+        case 6 :  return old_x - 1;
+        case 7 :  return old_x - 1;
+        case 8 :  return old_x - 1;
+    }
 }
 
-function get_new_y(){
+function get_new_y(old_y){
     var form = document.forms.set;
 
-    var arr = form.dest.value.split(',');
+    var num = parseInt(form.dest.value);
 
-    return parseInt(arr[1]);
+    switch(num){
+        case 1 : return old_y - 1;
+        case 2 : return old_y - 1;
+        case 3 : return old_y;
+        case 4 : return old_y + 1;
+        case 5 : return old_y + 1;
+        case 6 : return old_y + 1;
+        case 7 : return old_y;
+        case 8 : return old_y - 1;
+    }
 }
