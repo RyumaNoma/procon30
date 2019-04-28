@@ -381,14 +381,18 @@ class Game{
             return 3;
         }
         
-        //行き先が
-        // 0 または自陣
-        if(this.board[new_y][new_x] === 0 || this.board[new_y][new_x] === this.get_team(old_x, old_y)){
+        if(0 <= new_x && new_x <= this.x - 1 && 0 <= new_y && new_y <= this.y - 1){
+            //行き先が
+            // 0 または自陣
+            if(this.board[new_y][new_x] === 0 || this.board[new_y][new_x] === this.get_team(old_x, old_y)){
+                return 1;
+            }
+            
+            if((this.get_team(new_x, new_y) === 100 || this.get_team(new_x, new_y) === 200) && this.board[new_y][new_x] !== this.get_team(new_x, new_y)){
+                return 2;
+            }
+        }else{
             return 1;
-        }
-        
-        if((this.get_team(new_x, new_y) === 100 || this.get_team(new_x, new_y) === 200) && this.board[new_y][new_x] !== this.get_team(new_x, new_y)){
-            return 2;
         }
     }
 }
