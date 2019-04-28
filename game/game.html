@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Game</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="./game.css">
+    </head>
+
+    <body>
+        <canvas id="canvas" width="1000" height="1000"></canvas>
+        <script src="functions.js"></script>
+        <script src="Game.js"></script>
+
+        <form name="set">
+            <p>
+                <input type="radio" name="team" value="8">青
+                <input type="radio" name="team" value="0">オレンジ
+            </p>
+            <p>
+                エージェントナンバー : <input type="text" name="agent_No">
+            </p>
+            <p>
+                行き先　　　　　　　 : <input type="text" name="dest">
+            </p>
+
+            <input type="button" id="btn" value="送信" onclick="get_value()">
+        </form>
+
+        <script src="main.js"></script>
+    </body>
+</html>
