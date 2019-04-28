@@ -179,6 +179,7 @@ function get_new_x(old_x){
     var num = parseInt(form.dest.value);
 
     switch(num){
+        case 0 : return -1;
         case 1 :  return old_x;
         case 2 :  return old_x + 1;
         case 3 :  return old_x + 1;
@@ -196,6 +197,7 @@ function get_new_y(old_y){
     var num = parseInt(form.dest.value);
 
     switch(num){
+        case 0 : return -1;
         case 1 : return old_y - 1;
         case 2 : return old_y - 1;
         case 3 : return old_y;
