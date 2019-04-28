@@ -32,8 +32,9 @@ for(let i=1; i<=listen; i++){
     agentsB[parseInt(arr[0])] = parseInt(arr[1]);
 }
 
-agentsA = left_agents(agentsA, x, y);
-agentsB = left_agents(agentsB, x, y);
+var for_change = agentsA;
+agentsA = left_agents(agentsA, x, y, agentsB);
+agentsB = left_agents(agentsB, x, y, for_change);
 
 game = new Game(x, y, point_map, agentsA, agentsB, agent_num);
 

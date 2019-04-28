@@ -268,7 +268,32 @@ class Game{
         ctx.strokeStyle = 'black';
         ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
+        for(let i=0; i<this.x+1; i++){
+            ctx.fillStyle = '#42f445';
+            ctx.fillRect(i*cell, 0, cell, cell);
+
+            //マスのふち
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(i*cell, 0, cell, cell);
+            //座標表示
+            decide_font(ctx, "blue", "30px '明朝体'", "left", "top");
+            ctx.fillText(String(i-1), i*cell, 0);
+        }
+
         for(var i=0; i<this.y; i++){
+            //左端の座標ます
+
+            ctx.fillStyle = '#42f445';
+            ctx.fillRect(0, i*cell+cell, cell, cell);
+
+            //マスのふち
+            ctx.strokeStyle = 'black';
+            ctx.strokeRect(0, i*cell+cell, cell, cell);
+
+            //座標表示
+            decide_font(ctx, "blue", "30px '明朝体'", "left", "top");
+            ctx.fillText(String(i),0, i*cell+cell);
+
             for(var j=0; j<this.x; j++){
                 //背景マス
                 var status = this.board[i][j];
@@ -283,36 +308,36 @@ class Game{
                 else{
                     ctx.fillStyle = '#cdccd1';
                 }
-                ctx.fillRect(j*cell, i*cell, cell, cell);
+                ctx.fillRect(j*cell+cell, i*cell+cell, cell, cell);
 
                 //agents は〇で表現する
                 if(1 <= status && status <= 8){
                     ctx.fillStyle = 'orange';
                     ctx.beginPath();
-                    ctx.arc(j*cell+cell/2, i*cell+cell/2, cell/2-1, 0, 2*Math.PI, false);
+                    ctx.arc(j*cell+cell/2+cell, i*cell+cell/2+cell, cell/2-1, 0, 2*Math.PI, false);
                     ctx.fill();
 
                     //agentナンバー表示
                     decide_font(ctx, "black", "48px '明朝体", "left", "bottom");
-                    ctx.fillText(String(this.board[i][j]), j*cell, (i+1)*cell);
+                    ctx.fillText(String(this.board[i][j]), j*cell+cell, (i+1)*cell+cell);
 
                 }else if(9 <= status && status <= 16){
                     ctx.fillStyle = 'skyblue';
                     ctx.beginPath();
-                    ctx.arc(j*cell+cell/2, i*cell+cell/2, cell/2-1, 0, 2*Math.PI, false);
+                    ctx.arc(j*cell+cell/2+cell, i*cell+cell/2+cell, cell/2-1, 0, 2*Math.PI, false);
                     ctx.fill();
 
                     //agentナンバー表示
                     decide_font(ctx, "black", "48px '明朝体", "left", "bottom");
-                    ctx.fillText(String(this.board[i][j] - 8), j*cell, (i+1)*cell);
+                    ctx.fillText(String(this.board[i][j] - 8), j*cell+cell, (i+1)*cell+cell);
                 }
 
                 //マスのふち
                 ctx.strokeStyle = 'black';
-                ctx.strokeRect(j*cell, i*cell, cell, cell);
+                ctx.strokeRect(j*cell+cell, i*cell+cell, cell, cell);
                 //点数表示
                 decide_font(ctx, "blue", "30px '明朝体'", "left", "top");
-                ctx.fillText(String(this.point_map[i][j]), j*cell, i*cell);
+                ctx.fillText(String(this.point_map[i][j]), j*cell+cell, i*cell+cell);
             }
         }
 

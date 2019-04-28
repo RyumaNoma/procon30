@@ -115,8 +115,8 @@ function get_value(game){
     }
 }
 
-function left_agents(agents, x, y){
-    var ret = agents;
+function left_agents(agents, x, y, copy){
+    var ret = copy;
 
     for(let key in agents){
         ret[x - 1 - key] = y - 1 - agents[key];
