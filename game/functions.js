@@ -114,3 +114,13 @@ function get_value(game){
         game.count++;
     }
 }
+
+function left_agents(agents, x, y){
+    var ret = agents;
+
+    for(let key in agents){
+        ret[x - 1 - key] = y - 1 - agents[key];
+    }
+
+    return ret;
+}

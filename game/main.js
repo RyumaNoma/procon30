@@ -1,15 +1,39 @@
-var agentsA = {0:0, 1:0};
-var agentsB = {2:0, 3:0};
+var agentsA = {}, agentsB = {};
+// var agentsA = {0:0, 1:0};
+// var agentsB = {2:0, 3:0};
 
 var point_map_num = parseInt(prompt("フィールド番号"));
 var agent_num = parseInt(prompt("エージェントの合計"));
 var turn = parseInt(prompt("TURN"));
 
+//map選択
 var point_map = choose_point_map(point_map_num);
 turn_count = 0;
 
 var y = point_map.length;
 var x = point_map[0].length;
+
+//エージェント配置
+var side = agent_num / 2;
+var listen = side / 2 + side % 2;
+//ORANGE
+for(let i=1; i<=listen; i++){
+    var str = prompt("ORANGE : Agent #" + i);
+    var arr = str.split(',');
+
+    agentsA[parseInt(arr[0])] = parseInt(arr[1]);
+}
+
+//BLUE
+for(let i=1; i<=listen; i++){
+    var str = prompt("BLUE : Agent #" + i);
+    var arr = str.split(',');
+
+    agentsB[parseInt(arr[0])] = parseInt(arr[1]);
+}
+
+agentsA = left_agents(agentsA, x, y);
+agentsB = left_agents(agentsB, x, y);
 
 game = new Game(x, y, point_map, agentsA, agentsB, agent_num);
 
