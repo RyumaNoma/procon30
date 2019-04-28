@@ -196,7 +196,7 @@ class Game{
 
         var flag;
         var count = [];
-        for(var i=0; i<17; i++) count[i] = 0;
+        for(var i=0; i<this.agent_num; i++) count[i] = 0;
 
         //GOのものから
         for(var i=0; i<this.agent_num; i++){
@@ -204,12 +204,10 @@ class Game{
             if(move_status[i] === 1){
                 flag = true;
 
-                flag = this.can_try_to_move(old_x[i], old_y[i], new_x[i], new_y[i], i);
-
-                count[this.board[old_y[i]][old_x[i]]]++;
+                flag = this.can_try_to_move(old_x[i], old_y[i], new_x[i], new_y[i]);
 
                 //1ターンで動けるのは1回まで
-                if(count[this.board[old_y[i]][old_x[i]]] > 1){
+                if(count[i] > 1){
                     flag = false;
                     console.log(this.get_color(old_x[i], old_y[i])+ " : Agent #" + this.get_agent_No(old_x[i], old_y[i]) + " : 1ターンに2回動くな");
                 }
@@ -227,6 +225,7 @@ class Game{
                 if(flag){
                     this.go(old_x[i], old_y[i], new_x[i], new_y[i]);
                     console.log(this.get_color(new_x[i], new_y[i])+ " : Agent #" + this.get_agent_No(new_x[i], new_y[i]) + " : 動いたよー　(^ ^)");
+                    count[i]++;
                 }
             }
         }
@@ -235,13 +234,20 @@ class Game{
         for(var i=0; i<this.agent_num; i++){
             if(move_status[i] === 2){
                 flag = true;
-                flag = this.can_try_to_move(old_x[i], old_y[i], new_x[i], new_y[i], i);
+                flag = this.can_try_to_move(old_x[i], old_y[i], new_x[i], new_y[i]);
+
+                //1ターンで動けるのは1回まで
+                if(count[i] > 1){
+                    flag = false;
+                    console.log(this.get_color(old_x[i], old_y[i])+ " : Agent #" + this.get_agent_No(old_x[i], old_y[i]) + " : 1ターンに2回動くな");
+                }
 
                 //取ろうとする場所が誰かのタイルであれば
                 if(flag){
                     if(this.board[new_y[i]][new_x[i]] === 100 || this.board[new_y[i]][new_x[i]] === 200){
                         this.remove_tile(new_x[i], new_y[i]);
                         console.log(this.get_color(old_x[i], old_y[i]) + " : Agent #" + this.get_agent_No(old_x[i], old_y[i]) + " : （" + new_x[i] + "," + new_y[i] + "）のタイルをとったよ　>_<");
+                        count[i]++;
                     }else{
                         console.log(this.get_color(old_x[i], old_y[i]) + " : Agent #" + this.get_agent_No(old_x[i], old_y[i]) + " : そこ剥がせねーよ、バーカ！");
                     }
@@ -336,7 +342,7 @@ class Game{
         return (this.board[y][x] < 9)? 100 : 200;
     }
 
-    can_try_to_move(old_x, old_y, new_x, new_y, i){
+    can_try_to_move(old_x, old_y, new_x, new_y){
         var flag = true;
 
         //Agentは存在するか
@@ -377,7 +383,7 @@ class Game{
         
         //行き先が
         // 0 または自陣
-        if(this.board[new_y][new_x] === 0 || this.board[new_y][new_x] === this.get_team(new_x, new_y)){
+        if(this.board[new_y][new_x] === 0 || this.board[new_y][new_x] === this.get_team(old_x, old_y)){
             return 1;
         }
         
