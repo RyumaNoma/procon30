@@ -57,21 +57,19 @@ class Game{
 
         while(s.length){
             var c = s.pop();
-            if(ret[c[1]][c[0]]){
-                ret[c[1]][c[0]] = false;
+            if(ret[c[1]][c[0]] === 1){
+                ret[c[1]][c[0]] = 0;
                 var dx = [0, 0, 1, -1];
                 var dy = [1, -1, 0, 0];
 
                 for(var i=0; i<4; i++){
-                    //盤面外はダメ
-                    var cell = new Array(c[1] + dx[i], c[0] + dy[i]);
+                    var cell = [c[0] + dx[i], c[1] + dy[i]];
 
-                    if(cell[0] < 0 || cell[0] > this.x - 1){
+                    //盤面外はダメ
+                    if((cell[0] < 0 || cell[0] > this.x - 1) || (cell[1] < 0 || cell[1] > this.y - 1)){
                         continue;
                     }else{
-                        if(cell[1] < 0 || cell[1] > this.y - 1){
-                            continue;
-                        }else{
+                        if(ret[cell[1]][cell[0]] === 1){
                             s.push(cell);
                         }
                     }
@@ -93,11 +91,14 @@ class Game{
         //誰かのマスならfalse
         for(var i=0; i<this.y; i++){
             for(var j=0; j<this.x; j++){
-                if(this.board[i][j] === team_number ||
-                    (a <= this.board[i][j] && this.board[i][j] <= b)){
-                        status[i][j] = false;
+                status[i][j] = 1;
+
+                var flag = (a <= this.board[i][j] && this.board[i][j] <= b);
+
+                if(this.board[i][j] === team_number || flag){
+                    status[i][j] = 0;
                 }else{
-                    status[i][j] = true;
+                    status[i][j] = 1;
                 }
             }
         }
@@ -106,28 +107,28 @@ class Game{
         //塗りつぶしをすべての淵のマスで実行する
         //上
         for(var i=0; i<this.x; i++){
-            if(status[0][i]){
+            if(status[0][i] === 1){
                 status = this.fill_from_point(i, 0, status, team_number);
             }
         }
 
         //下
         for(var i=0; i<this.x; i++){
-            if(status[this.y - 1][i]){
+            if(status[this.y - 1][i] === 1){
                 status = this.fill_from_point(i, this.y - 1, status, team_number);
             }
         }
 
         //右
         for(var i=0; i<this.y; i++){
-            if(status[i][this.x - 1]){
+            if(status[i][this.x - 1] === 1){
                 status = this.fill_from_point(this.x - 1, i, status, team_number);
             }
         }
 
         //左
         for(var i=0; i<this.y; i++){
-            if(status[i][0]){
+            if(status[i][0] === 1){
                 status = this.fill_from_point(0, i, status, team_number);
             }
         }
@@ -135,7 +136,7 @@ class Game{
         //囲まれている場所の絶対値を足す
         for(var i=0; i<this.y; i++){
             for(var j=0; j<this.x; j++){
-                if(status[i][j]){
+                if(status[i][j] === 1){
                     sum += Math.abs(this.point_map[i][j]);
                 }
             }
@@ -364,7 +365,7 @@ class Game{
             return 1;
         }
         
-        if((get_team(new_x, new_y) === 100 || get_team(new_x, new_y) === 200) && this.board[new_y][new_x] !== get_team(new_x, new_y)){
+        if((this.get_team(new_x, new_y) === 100 || this.get_team(new_x, new_y) === 200) && this.board[new_y][new_x] !== this.get_team(new_x, new_y)){
             return 2;
         }
     }

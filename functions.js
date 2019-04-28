@@ -11,14 +11,6 @@ function init_Array(x, y){
     return arr;
 }
 
-function init_arr(x){
-    var arr = new Array(x);
-
-    for(var i=0; i<x; i++) arr[i] = 0;
-
-    return arr;
-}
-
 function decide_font(ctx, color, font, align, baseline){
     ctx.fillStyle = color;
     ctx.font = font;
