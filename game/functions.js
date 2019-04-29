@@ -60,57 +60,94 @@ function decide_font(ctx, color, font, align, baseline){
     ctx.textBaseline = baseline;
 }
 
-function get_value(game){
+function get_old_x(){
     var form = document.forms.set;
 
-    //blue OR orange
-    var team = form.team.value;
-    //Agent Number
-    var agent_num = form.agent_num.value;
-    //Destination
-    var dest = form.dest.value;
-    var arr = dest.split(',');
-    // 1 ... go
-    // 2 ... remove_tile
-    // 3 ... pass
-    var status = form.status.value;
+    var agent_number = parseInt(form.agent_No.value) + 8;
 
-    console.log(team + " : " + agent_num);
-
-    //old
-    var agent_No = agent_num + (team==="orange")? 0 : 8;
-
-    var flag = true;
-    for(var i=0; i<game.y && flag; i++){
-        for(var j=0; j<game.x && flag; j++){
-            if(game.board[i][j] === agent_No){
-                game.old_x[game.count] = j;
-                game.old_y[game.count] = i;
-                flag = false;
+    for(var i=0; i<game.y; i++){
+        for(var j=0; j<game.x; j++){
+            if(game.board[i][j] === agent_number){
+                return j;
             }
         }
     }
+}
 
-    //new
-    game.new_y[game.count] = arr[1];
-    game.new_x[game.count] = arr[0];
+function get_old_y(){
+    var form = document.forms.set;
 
-    //status
-    var res;
-    if(status === "go"){
-        res = 1;
-    }else if(status === "remove_tile"){
-        res = 2;
-    }else{
-        res = 3;
+    var agent_number = parseInt(form.agent_No.value) + 8;
+
+    for(var i=0; i<game.y; i++){
+        for(var j=0; j<game.x; j++){
+            if(game.board[i][j] === agent_number){
+                return i;
+            }
+        }
     }
+}
 
-    game.status[game.count] = res;
+function get_new_x(old_x){
+    var form = document.forms.set;
 
-    if(game.count === game.agent_num - 1){
-        game.agent_move(game.old_x, game.old_y, game.new_x, game.new_y, game.status);
-        game.count = 0;
-    }else{
-        game.count++;
+    var num = parseInt(form.dest.value);
+
+    switch(num){
+        case 0 : return -1;
+        case 1 :  return old_x;
+        case 2 :  return old_x + 1;
+        case 3 :  return old_x + 1;
+        case 4 :  return old_x + 1;
+        case 5 :  return old_x;
+        case 6 :  return old_x - 1;
+        case 7 :  return old_x - 1;
+        case 8 :  return old_x - 1;
+    }
+}
+
+function get_new_y(old_y){
+    var form = document.forms.set;
+
+    var num = parseInt(form.dest.value);
+
+    switch(num){
+        case 0 : return -1;
+        case 1 : return old_y - 1;
+        case 2 : return old_y - 1;
+        case 3 : return old_y;
+        case 4 : return old_y + 1;
+        case 5 : return old_y + 1;
+        case 6 : return old_y + 1;
+        case 7 : return old_y;
+        case 8 : return old_y - 1;
+    }
+}
+
+function get_bot_new_x(old_x, num){
+    switch(num){
+        case 0 : return -1;
+        case 1 :  return old_x;
+        case 2 :  return old_x + 1;
+        case 3 :  return old_x + 1;
+        case 4 :  return old_x + 1;
+        case 5 :  return old_x;
+        case 6 :  return old_x - 1;
+        case 7 :  return old_x - 1;
+        case 8 :  return old_x - 1;
+    }
+}
+
+function get_bot_new_y(old_y, num){
+    switch(num){
+        case 0 : return -1;
+        case 1 : return old_y - 1;
+        case 2 : return old_y - 1;
+        case 3 : return old_y;
+        case 4 : return old_y + 1;
+        case 5 : return old_y + 1;
+        case 6 : return old_y + 1;
+        case 7 : return old_y;
+        case 8 : return old_y - 1;
     }
 }
