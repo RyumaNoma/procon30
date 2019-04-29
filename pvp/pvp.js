@@ -12,6 +12,8 @@ var y = point_map.length;
 var x = point_map[0].length;
 
 //agent配置（固定）
+//Agentの人数と配置場所を変えるときはここを書き換えよう！！
+//{x:y}の順だよ
 var agentsA = {0:0, 8:8};
 var agentsB = {1:1, 9:9};
 
