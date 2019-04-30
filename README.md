@@ -4,6 +4,7 @@
 ディレクトリ削除しちゃったら怖いから作っとく
 
 ## 出来ること
+- index.html を実行することでプレーできる
 - Player VS Player (commit:35 時点)
 
 
